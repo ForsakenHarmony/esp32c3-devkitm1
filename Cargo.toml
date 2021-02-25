@@ -1,0 +1,20 @@
+[package]
+name = "esp32c3-devkitm1"
+version = "0.1.0"
+authors = ["Leah <cargo.leah@hrmny.sh>"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+panic-halt = "0.2.0"
+riscv-rt = "0.8.0"
+embedded-hal = "0.2.4"
+smart-leds = "0.3.0"
+ws2812-timer-delay = "0.3.0"
+
+[dependencies.esp32c3-hal]
+version = "*"
+path = "./_pkg/esp32c3-hal"
+features = ["rt"]

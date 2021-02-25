@@ -1,0 +1,9 @@
+[submodule "_pkg/esp32c3-pac"]
+	path = _pkg/esp32c3-pac
+	url = git@github.com:ForsakenHarmony/esp32c3-pac.git
+[submodule "_pkg/idf2svd"]
+	path = _pkg/idf2svd
+	url = git@github.com:ForsakenHarmony/idf2svd.git
+[submodule "_pkg/espflash"]
+	path = _pkg/espflash
+	url = git@github.com:ForsakenHarmony/espflash.git

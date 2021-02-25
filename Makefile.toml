@@ -1,0 +1,33 @@
+[env]
+MODE = "release"
+
+[tasks.build]
+command = "cargo"
+args = ["build"]
+
+[tasks.objcopy]
+command = ".tools/riscv-nuclei-elf-objcopy"
+args = ["-O", "binary", "${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/riscv32imac-unknown-none-elf/${MODE}/${CARGO_MAKE_PROJECT_NAME}", "rom.bin"]
+dependencies = [
+  "build"
+]
+
+[tasks.dfu-flash]
+command = ".tools/dfu-util"
+args = ["-a", "0", "-s", "0x08000000:leave", "-D", "rom.bin"]
+dependencies = [
+  "objcopy"
+]
+
+[tasks.flash]
+command = ".tools/tool-openocd-gd32v/bin/openocd"
+args = ["-f", "./sipeed-jtag.cfg", "-f", "./openocd.cfg", "-c", "flash protect 0 0 last off; program {${CARGO_MAKE_WORKSPACE_WORKING_DIRECTORY}/target/riscv32imac-unknown-none-elf/${MODE}/${CARGO_MAKE_PROJECT_NAME}} verify; mww 0xe004200c 0x4b5a6978; mww 0xe0042008 0x01; resume; exit 0;"]
+dependencies = [
+	"build"
+]
+
+[tasks.default]
+dependencies = [
+    "flash"
+]
+

@@ -1,0 +1,43 @@
+[package]
+name = "esp32c3-hal"
+version = "0.1.0"
+authors = ["Leah <cargo.leah@hrmny.sh>"]
+edition = "2018"
+readme = "README.md"
+repository = "https://github.com/imheresamir/esp32c3"
+description = "HAL for the ESP32-C3"
+keywords = ["riscv", "hal", "no-std", "esp32-c3", "wifi", "embedded"]
+categories = [
+    "embedded",
+    "hardware-support",
+    "no-std",
+]
+include = [
+    "/src/**",
+    "svd/esp32c3.svd",
+    "build.rs",
+    "device.x"
+]
+license = "MIT OR Apache-2.0"
+
+[dependencies.embedded-hal]
+version = "0.2.4"
+
+[dependencies.esp32c3-pac]
+version = "0.1.0"
+path = "../esp32c3-pac"
+
+[dependencies.riscv]
+version = "0.6.0"
+
+[dependencies.riscv-rt]
+version = "0.8.0"
+optional = true
+
+[dependencies.r0]
+version = "1.0.0"
+optional = true
+
+[features]
+rt = ["esp32c3-pac/rt", "riscv-rt", "r0"]
+#all_in_ram = []
