@@ -209,12 +209,12 @@ impl<MODE> OutputPin for P8<Output<MODE>> {
     type Error = Infallible;
 
     fn set_low(&mut self) -> Result<(), Self::Error> {
-        unsafe { (*GPIO::ptr()).out_w1tc.modify(|r, w| w.bits(1 << 8)) };
+        unsafe { (*GPIO::ptr()).out_w1tc.write(|w| w.bits(1 << 8)) };
         Ok(())
     }
 
     fn set_high(&mut self) -> Result<(), Self::Error> {
-        unsafe { (*GPIO::ptr()).out_w1ts.modify(|r, w| w.bits(1 << 8)) };
+        unsafe { (*GPIO::ptr()).out_w1ts.write(|w| w.bits(1 << 8)) };
         Ok(())
     }
 }
@@ -228,9 +228,9 @@ impl<MODE> P8<MODE> {
         // out en clear: w1tc
 
         gpio.enable_w1ts.write(|w| unsafe { w.bits(1 << 8) });
-        let pin: crate::pac::gpio::PIN = gpio.pin[8];
+        let pin: &crate::pac::gpio::PIN = &gpio.pin[8];
         pin.modify(|_, w| w.pad_driver().bit(open_drain));
-        let func: crate::pac::gpio::FUNC_OUT_SEL_CFG = gpio.func_out_sel_cfg[8];
+        let func: &crate::pac::gpio::FUNC_OUT_SEL_CFG = &gpio.func_out_sel_cfg[8];
         func.modify(|_, w| unsafe { w.out_sel().bits(OutputSignal::GPIO as u8) });
         // gpio.func_out_sel_cfg[8].modify(|_, w| unsafe { w.out_sel().bits(OutputSignal::GPIO as u16) });
 
